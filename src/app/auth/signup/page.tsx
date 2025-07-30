@@ -34,10 +34,14 @@ export default async function SignUpPage() {
       }
     })
 
+    console.log("🔁 Attempting to create user...", { email, name })
+
     if (error) {
-      redirect('/auth/signup?error=Could not create account')
+      console.error("❌ Failed to create user:", error.message);
+      return;
     }
 
+    console.log("✅ User created successfully. Redirecting to dashboard...");
     redirect('/dashboard')
   }
 
