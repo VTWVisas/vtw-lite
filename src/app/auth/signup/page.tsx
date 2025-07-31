@@ -1,49 +1,29 @@
+"use client"
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Target, ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { signUp } from './action'
 
-export default async function SignUpPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+import { useActionState } from 'react'
 
-  if (user) {
-    redirect('/dashboard')
-  }
+const initialState = {
+  payload: null,
+  errors: []
+}
 
-  async function signUp(formData: FormData) {
-    'use server'
-    
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const name = formData.get('name') as string
-    
-    const supabase = await createClient()
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          name: name,
-        }
-      }
-    })
 
-    console.log("🔁 Attempting to create user...", { email, name })
+export default function SignUpPage() {
+  const [ state, formAction, pending ] = useActionState(signUp, initialState)
+  // const supabase = await createClient()
+  // const { data: { user } } = await supabase.auth.getUser()
 
-    if (error) {
-      console.error("❌ Failed to create user:", error.message);
-      return;
-    }
-
-    console.log("✅ User created successfully. Redirecting to dashboard...");
-    redirect('/dashboard')
-  }
+  // if (user) {
+  //   redirect('/dashboard')
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
@@ -75,7 +55,19 @@ export default async function SignUpPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={signUp} className="space-y-4">
+            {/* Display errors if any */}
+            {state.errors && state.errors.length > 0 && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <ul className="text-sm text-red-600">
+                  {state.errors.map((error) => (
+                    <li key={error}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Sign Up Form */}
+            <form action={formAction} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
@@ -107,7 +99,7 @@ export default async function SignUpPage() {
                   minLength={6}
                 />
               </div>
-              <Button type="submit" className="w-full gradient-primary">
+              <Button type="submit" className="w-full gradient-primary" disabled={pending}>
                 Create Account
               </Button>
             </form>

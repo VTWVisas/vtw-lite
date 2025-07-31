@@ -1,39 +1,28 @@
+"use client"
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Target, ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { useActionState } from 'react'
 
-export default async function SignInPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+import { signIn } from './action'
 
-  if (user) {
-    redirect('/dashboard')
-  }
+const initialState = {
+  payload: '',
+  errors: []
+}
 
-  async function signIn(formData: FormData) {
-    'use server'
-    
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    
-    const supabase = await createClient()
-    
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+export default function SignInPage() {
+  const [state, formAction, pending] = useActionState(signIn, initialState)
+  // const supabase = await createClient()
+  // const { data: { user } } = await supabase.auth.getUser()
 
-    if (error) {
-      redirect('/auth/signin?error=Invalid credentials')
-    }
-
-    redirect('/dashboard')
-  }
+  // if (user) {
+  //   redirect('/dashboard')
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
@@ -65,7 +54,18 @@ export default async function SignInPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={signIn} className="space-y-4">
+            {/* Display errors if any */}
+            {state.errors && state.errors.length > 0 && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <ul className="text-sm text-red-600">
+                  {state.errors.map((error) => (
+                    <li key={error}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <form action={formAction} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -86,7 +86,7 @@ export default async function SignInPage() {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full gradient-primary">
+              <Button type="submit" className="w-full gradient-primary" disabled={pending}>
                 Sign In
               </Button>
             </form>
