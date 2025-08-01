@@ -1,32 +1,35 @@
 "use client"
 
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
-import { useActionState } from 'react'
-import { Target, ArrowLeft } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Target } from 'lucide-react'
+import { signUp } from './action'
 
-import { signIn } from './action'
+import { useActionState } from 'react'
 
 const initialState = {
-  payload: '',
+  payload: null,
   errors: []
 }
 
-export default function SignInPage() {
-  const [state, formAction, pending] = useActionState(signIn, initialState)
+
+export default function SignUpPage() {
+  const [ state, formAction, pending ] = useActionState(signUp, initialState)
+  // const supabase = await createClient()
+  // const { data: { user } } = await supabase.auth.getUser()
+
+  // if (user) {
+  //   redirect('/dashboard')
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-6">
-            <ArrowLeft className="h-4 w-4" />
-            <span className="text-sm text-gray-600">Back to home</span>
-          </Link>
           <div className="flex items-center justify-center space-x-2 mb-4">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Target className="h-5 w-5 text-white" />
@@ -35,19 +38,25 @@ export default function SignInPage() {
               VTW Lite
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-          <p className="text-gray-600 mt-2">Sign in to your account to continue</p>
+          <h1 className="text-2xl font-bold text-gray-900">Get started</h1>
+          <p className="text-gray-600 mt-2">Create your account to begin your journey</p>
         </div>
 
-        {/* Sign In Form */}
+        {/* Sign Up Form */}
         <Card className="border-0 atlassian-shadow">
           <CardHeader>
-            <CardTitle>Sign In</CardTitle>
+            <CardTitle>Create Account</CardTitle>
             <CardDescription>
-              Enter your email and password to access your account
+              Fill in your details to create your VTW Lite account
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {state.payload && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
+                <p className="text-sm text-green-600">{state.payload}</p>
+              </div>
+            )}
+            
             {/* Display errors if any */}
             {state.errors && state.errors.length > 0 && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
@@ -59,7 +68,18 @@ export default function SignInPage() {
               </div>
             )}
 
+            {/* Sign Up Form */}
             <form action={formAction} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -76,20 +96,21 @@ export default function SignInPage() {
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   required
+                  minLength={6}
                 />
               </div>
               <Button type="submit" className="w-full gradient-primary" disabled={pending}>
-                Sign In
+                Create Account
               </Button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Don&apos;t have an account?{' '}
-                <Link href="/auth/signup" className="text-primary hover:underline">
-                  Sign up
+                Already have an account?{' '}
+                <Link href="/signin" className="text-primary hover:underline">
+                  Sign in
                 </Link>
               </p>
             </div>

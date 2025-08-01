@@ -10,13 +10,6 @@ import { Target, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function NewGoalPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/auth/signin')
-  }
-
   async function createGoal(formData: FormData) {
     'use server'
     
@@ -29,7 +22,7 @@ export default async function NewGoalPage() {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-      redirect('/auth/signin')
+      redirect('/signin')
     }
     
     const { error } = await supabase

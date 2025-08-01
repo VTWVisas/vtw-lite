@@ -221,10 +221,10 @@ export function Header({ user }: HeaderProps) {
             ) : (
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" asChild>
-                  <Link href="/auth/signin">Sign In</Link>
+                  <Link href="/signin">Sign In</Link>
                 </Button>
                 <Button asChild className="gradient-primary">
-                  <Link href="/auth/signup">Get Started</Link>
+                  <Link href="/signup">Get Started</Link>
                 </Button>
               </div>
             )}
