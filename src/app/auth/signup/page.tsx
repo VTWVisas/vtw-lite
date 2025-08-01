@@ -55,6 +55,12 @@ export default function SignUpPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {state.payload && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
+                <p className="text-sm text-green-600">{state.payload}</p>
+              </div>
+            )}
+            
             {/* Display errors if any */}
             {state.errors && state.errors.length > 0 && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">

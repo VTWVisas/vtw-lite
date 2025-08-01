@@ -1,12 +1,12 @@
 "use client"
 
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Target, ArrowLeft } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { useActionState } from 'react'
+import { Target, ArrowLeft } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { signIn } from './action'
 
@@ -17,12 +17,6 @@ const initialState = {
 
 export default function SignInPage() {
   const [state, formAction, pending] = useActionState(signIn, initialState)
-  // const supabase = await createClient()
-  // const { data: { user } } = await supabase.auth.getUser()
-
-  // if (user) {
-  //   redirect('/dashboard')
-  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">

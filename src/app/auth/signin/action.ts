@@ -16,7 +16,6 @@ export async function signIn(_: unknown, formData: FormData) {
 
     if (error) {
         console.error("❌ Failed to sign in:", error.message);
-        // redirect('/auth/signin?error=Invalid credentials')
         return {
             payload: '',
             errors: [error.message]

@@ -1,7 +1,6 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 
 
 export async function signUp(_: unknown, formData: FormData) {
@@ -33,19 +32,18 @@ export async function signUp(_: unknown, formData: FormData) {
     };
   }
 
-  if (!data.user?.app_metadata?.email_verified) {
-    console.warn("⚠️ Email not verified. Redirecting to verify email...");
+  if (data.user?.user_metadata?.email_verified === false) {
+    console.log("✅ User created successfully. Please verify your email.", data);
+
     return {
-      errors: ['Please verify your email address before signing in.'],
-      payload: null
+      errors: [],
+      payload: "User created successfully. Please verify your email."
     };
   }
 
-  console.log("✅ User created successfully. Redirecting to dashboard...", data);
+  console.warn("⚠️  User already exists, redirecting to sign in page...", data);
   return {
-    payload: data,
-    errors: []
-    // redirect('/dashboard')
+    payload: null,
+    errors: ["Account exists, please sign in."],
   }
-
 }
