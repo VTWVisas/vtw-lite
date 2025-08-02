@@ -97,6 +97,7 @@ create table public.notes (
   tags text[],
   linked_notes uuid[],
   is_public boolean default false,
+  is_pinned boolean default false,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
