@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Loader } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -40,19 +41,43 @@ function Button({
   variant,
   size,
   asChild = false,
+  disabled = false,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
+  const _className = cn("flex items-center gap-1", buttonVariants({ variant, size, className }));
+
+  // When using asChild, we can't add additional children (like Loader)
+  // because Slot expects exactly one child element
+  if (asChild) {
+    return (
+      <Comp
+        data-slot="button"
+        className={_className}
+        disabled={disabled}
+        {...props}
+      >
+        {children}
+      </Comp>
+    )
+  }
 
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={_className}
+      disabled={disabled}
       {...props}
-    />
+    >
+      {children}
+      {disabled && (
+        <Loader className="size-4 animate-spin" />
+      )}
+    </Comp>
   )
 }
 
