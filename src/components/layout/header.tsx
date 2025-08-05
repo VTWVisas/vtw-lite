@@ -33,7 +33,9 @@ import {
   Menu,
   LogOut,
   Settings,
-  User
+  User,
+  Clock,
+  Timer
 } from 'lucide-react'
 
 interface HeaderProps {
@@ -81,6 +83,18 @@ export function Header({ user }: HeaderProps) {
       href: '/habits',
       icon: Calendar,
       description: 'Build better habits'
+    },
+    {
+      title: 'Schedule',
+      href: '/schedule',
+      icon: Clock,
+      description: 'Time-blocking and daily planning'
+    },
+    {
+      title: 'Pomodoro',
+      href: '/pomodoro',
+      icon: Timer,
+      description: 'Focus sessions with Pomodoro technique'
     },
     {
       title: 'Finance',

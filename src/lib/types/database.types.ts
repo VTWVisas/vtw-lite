@@ -258,6 +258,157 @@ export interface Database {
           updated_at?: string
         }
       }
+      tags: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          color: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          color?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          color?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      time_blocks: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          description: string | null
+          start_time: string
+          end_time: string
+          task_id: string | null
+          color: string
+          is_completed: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          description?: string | null
+          start_time: string
+          end_time: string
+          task_id?: string | null
+          color?: string
+          is_completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          description?: string | null
+          start_time?: string
+          end_time?: string
+          task_id?: string | null
+          color?: string
+          is_completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      time_block_tags: {
+        Row: {
+          id: string
+          time_block_id: string
+          tag_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          time_block_id: string
+          tag_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          time_block_id?: string
+          tag_id?: string
+          created_at?: string
+        }
+      }
+      pomodoro_sessions: {
+        Row: {
+          id: string
+          user_id: string
+          title: string | null
+          duration_minutes: number
+          break_duration_minutes: number | null
+          started_at: string
+          completed_at: string | null
+          is_completed: boolean
+          time_block_id: string | null
+          task_id: string | null
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title?: string | null
+          duration_minutes?: number
+          break_duration_minutes?: number | null
+          started_at: string
+          completed_at?: string | null
+          is_completed?: boolean
+          time_block_id?: string | null
+          task_id?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string | null
+          duration_minutes?: number
+          break_duration_minutes?: number | null
+          started_at?: string
+          completed_at?: string | null
+          is_completed?: boolean
+          time_block_id?: string | null
+          task_id?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+      }
+      pomodoro_session_tags: {
+        Row: {
+          id: string
+          pomodoro_session_id: string
+          tag_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          pomodoro_session_id: string
+          tag_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          pomodoro_session_id?: string
+          tag_id?: string
+          created_at?: string
+        }
+      }
     }
   }
 }
