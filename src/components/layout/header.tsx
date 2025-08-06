@@ -35,7 +35,8 @@ import {
   Settings,
   User,
   Clock,
-  Timer
+  Timer,
+  Bot
 } from 'lucide-react'
 
 interface HeaderProps {
@@ -65,6 +66,12 @@ export function Header({ user }: HeaderProps) {
       href: '/dashboard',
       icon: Home,
       description: 'Your personal overview'
+    },
+    {
+      title: 'Assistant',
+      href: '/assistant',
+      icon: Bot,
+      description: 'AI-powered productivity companion'
     },
     {
       title: 'Goals',
