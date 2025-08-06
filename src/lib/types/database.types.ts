@@ -39,16 +39,48 @@ export interface Database {
           updated_at?: string
         }
       }
+      task_columns: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          position: number
+          color: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          position: number
+          color?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          position?: number
+          color?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
       tasks: {
         Row: {
           id: string
           user_id: string
           goal_id: string | null
+          column_id: string | null
           title: string
           description: string | null
           due_date: string | null
           priority: 'low' | 'medium' | 'high' | 'urgent'
           status: 'todo' | 'in_progress' | 'completed' | 'cancelled'
+          position: number
+          tags: string[]
           created_at: string
           updated_at: string
         }
@@ -56,11 +88,14 @@ export interface Database {
           id?: string
           user_id: string
           goal_id?: string | null
+          column_id?: string | null
           title: string
           description?: string | null
           due_date?: string | null
           priority?: 'low' | 'medium' | 'high' | 'urgent'
           status?: 'todo' | 'in_progress' | 'completed' | 'cancelled'
+          position?: number
+          tags?: string[]
           created_at?: string
           updated_at?: string
         }
@@ -68,11 +103,14 @@ export interface Database {
           id?: string
           user_id?: string
           goal_id?: string | null
+          column_id?: string | null
           title?: string
           description?: string | null
           due_date?: string | null
           priority?: 'low' | 'medium' | 'high' | 'urgent'
           status?: 'todo' | 'in_progress' | 'completed' | 'cancelled'
+          position?: number
+          tags?: string[]
           created_at?: string
           updated_at?: string
         }

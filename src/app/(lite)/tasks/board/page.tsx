@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import TasksLayout from './components/TasksLayout'
+import BoardView from '../components/BoardView'
 
-export default async function TasksPage() {
+export default async function TasksBoardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -29,10 +29,18 @@ export default async function TasksPage() {
     .order('position')
 
   return (
-    <TasksLayout 
-      initialColumns={columns || []} 
-      initialTasks={tasks || []} 
-      userId={user.id}
-    />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">Task Board</h1>
+      </div>
+      
+      <BoardView
+        columns={columns || []}
+        tasks={tasks || []}
+        setColumns={() => {}}
+        setTasks={() => {}}
+        userId={user.id}
+      />
+    </div>
   )
 }

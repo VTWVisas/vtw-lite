@@ -1,21 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import TasksLayout from './components/TasksLayout'
+import FeedView from '../components/FeedView'
 
-export default async function TasksPage() {
+export default async function TasksFeedPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
     redirect('/signin')
   }
-
-  // Fetch task columns
-  const { data: columns } = await supabase
-    .from('task_columns')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('position')
 
   // Fetch tasks with their columns and goals
   const { data: tasks } = await supabase
@@ -29,10 +22,16 @@ export default async function TasksPage() {
     .order('position')
 
   return (
-    <TasksLayout 
-      initialColumns={columns || []} 
-      initialTasks={tasks || []} 
-      userId={user.id}
-    />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">Task Feed</h1>
+      </div>
+      
+      <FeedView
+        tasks={tasks || []}
+        setTasks={() => {}}
+        userId={user.id}
+      />
+    </div>
   )
 }
